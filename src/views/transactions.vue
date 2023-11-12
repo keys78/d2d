@@ -1,7 +1,7 @@
 <template>
-  <main>
-    <RouterView />
-  </main>
+    <div>
+        transaction
+    </div>
 </template>
 
 <script setup>
