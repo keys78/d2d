@@ -1,27 +1,29 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  purge: ['./src/**/*.html', './src/**/*.vue', './src/**/*.jsx'],
   theme: {
-    extend: {},
-    theme: {
+    extend: {
       colors: {
-        // Using modern `rgb`
-        primary: 'rgb(var(--color-primary) / <alpha-value>)',
-        secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
-  
-        // Using modern `hsl`
-        primary: 'hsl(var(--color-primary) / <alpha-value>)',
-        secondary: 'hsl(var(--color-secondary) / <alpha-value>)',
-  
-        // Using legacy `rgba`
-        primary: 'rgba(var(--color-primary), <alpha-value>)',
-        secondary: 'rgba(var(--color-secondary), <alpha-value>)',
+        accent: {
+          1: "var(--accent1)",
+          2: "var(--accent2)",
+        },
+        paleBlue: "var(--paleBlue)",
+        grayBlue: "var(--grayBlue)",
+        darkBlue: "var(--darkBlue)",
+        burgundy: "var(--burgundy)",
+        veryDarkBlue: "var(--veryDarkBlue)",
+      },
+      fontFamily: {
+        Roboto: ['"Roboto Mono"', ...defaultTheme.fontFamily.sans]
       }
-    }
+    },
   },
   plugins: [],
-}
-
+};

@@ -3,9 +3,66 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --paleBlue: hsl(243, 100%, 93%);
+    --grayBlue: hsl(229, 7%, 55%);
+    --darkBlue: hsl(228, 56%, 26%);
+    --veryDarkBlue: hsl(229, 57%, 11%);
+    --accent1: hsl(6, 100%, 80%);
+    --accent2: hsl(335, 100%, 65%);
+  }
+
+  @media (prefers-color-scheme: dark) {
     :root {
-      --color-primary: rgb(255 115 179);
-      --color-secondary: rgb(111 114 185);
-      /* ... */
+      --paleBlue: hsl(229, 57%, 11%);
+      --grayBlue: hsl(229, 7%, 55%);
+      --darkBlue: hsl(228, 56%, 26%);
+      --burgundy: hsl(348, 96%, 42%);
+      --veryDarkBlue: hsl(0, 0%, 100%);
+      --accent1: hsl(6, 100%, 80%);
+      --accent2: hsl(335, 100%, 65%);
     }
   }
+
+  :root[data-theme="dark"] {
+    --paleBlue: hsl(243, 100%, 93%);
+    --grayBlue: hsl(229, 7%, 55%);
+    --darkBlue: hsl(228, 56%, 26%);
+    --veryDarkBlue: hsl(229, 57%, 11%);
+    --accent1: hsl(6, 100%, 80%);
+    --accent2: hsl(335, 100%, 65%);
+  }
+
+  body {
+    @apply bg-veryDarkBlue text-paleBlue transition duration-500 max-w-[1920px] mx-auto;
+  }
+}
+
+.mouse {
+  border: 1px solid #ebebeb;
+    border-radius: 30px;
+    cursor: pointer;
+    display: block;
+    height: 46px;
+    margin: 50px -12px -12px;
+    order: 3;
+    position: relative;
+    width: 24px;
+}
+
+.mouse::after {
+  -webkit-animation: mouse-wheel-scroll 1.5s infinite;
+  animation: mouse-wheel-scroll 1.5s infinite;
+  background-color: #ebebeb;
+  border-radius: 2px;
+  content: "";
+  display: block;
+  height: 4px;
+  left: 13px;
+  margin-left: -3px;
+  position: absolute;
+  top: 10px;
+  width: 2px;
+}
+
+/* <div class="mouse"></div> */

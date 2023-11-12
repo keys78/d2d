@@ -1,5 +1,5 @@
 <template>
-    <h3>Transaction History</h3>
+    <h3>Recent Transactions</h3>
     <ul id="list" class="list">
       <li
         v-for="transaction in transactions"
