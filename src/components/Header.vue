@@ -1,7 +1,7 @@
 <template>
     <section class=" shadow py-3 ">
         <div class="flex items-center justify-between max-w-[900px] mx-auto">
-            <Logo :width="153"/>
+            <Logo :width="100"/>
             <ToggleSwitch />
         </div>
 
