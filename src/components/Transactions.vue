@@ -11,10 +11,12 @@
       class=" flex items-center group overflow-x-hidden mb-4 hover:cursor-pointer sm:text-[16px] text-[14px]"
     >
       <aside class="w-full group-hover:-ml-[140px] transition-all duration-300 grid sm:grid-cols-8 grid-cols-11 items-center justify-between py-3 px-3 bg-darkBlue rounded-l-md">
-        <span class="sm:col-span-2 col-span-3 font-bold text-gray-500"> <span class="opacity-60">#</span>{{ transaction?.id }}</span>
+        <span class="sm:col-span-2 col-span-3 font-bold text-gray-500"> <div class="flex items-center"><div class="opacity-60">#</div>{{ transaction?.id }}</div></span>
         <span class="sm:col-span-2 col-span-3"> {{ moment(transaction?.date).format('l') }}</span>
         <span class="sm:col-span-3 col-span-3">{{ characterLimit(transaction?.title, computedLimit) }}</span>
-        <span class="sm:col-span-1 col-span-2" :class="transaction.type === 'expense' ? 'text-red-500' : 'text-green-500'" >{{ formattedAmount(transaction.amount, transaction.type) }}</span>
+        <span class="sm:col-span-1 col-span-2" :class="transaction.type === 'expense' ? 'text-red-500' : 'text-green-500'" >
+          {{ formattedAmount(transaction.amount, transaction.type) }}
+        </span>
       </aside>
       
       <aside class="flex items-center -mr-[140px] transition-all duration-300">
@@ -71,7 +73,8 @@ onMounted(() => {
 });
 
 const formattedAmount = (amount, type) => {
-  return type === 'expense' ? `-$${Math.abs(amount).toFixed(2)}` : `$${amount.toFixed(2)}`;
+  const formatted = new Intl.NumberFormat().format(Math.abs(amount).toFixed(2));
+  return type === 'expense' ? `-$${formatted}` : `$${formatted}`;
 };
 
 

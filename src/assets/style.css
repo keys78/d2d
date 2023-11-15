@@ -51,6 +51,8 @@
   }
 
   body {
-    @apply bg-veryDarkBlue text-paleBlue transition duration-500 max-w-[1920px] mx-auto;
+    @apply bg-veryDarkBlue text-paleBlue transition duration-500 max-w-[1920px] mx-auto
+    scrollbar-thin scrollbar-thumb-paleBlue scrollbar-track-transparent overflow-y-scroll h-full 
+    ; 
   }
 }

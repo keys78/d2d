@@ -13,6 +13,8 @@ import Modal from "./../modal/index.vue";
 import { ref, onMounted } from "vue";
 import AddTransaction from "./../AddTransaction.vue";
 
+const handleModalVisibility = ref('')
+const show = ref('')
 const showAddTransactionModal = ref(false);
 
 const openModal = () => {

@@ -4,8 +4,8 @@
       <ph-arrow-circle-down :size="24" color="#3aba17" />
       <div>
         <p class="text-[11px] pb-2 pt-1">Income</p>
-        <p class="text-[18px] font-Roboto text-green-500">
-          +{{ income.toFixed(2) }}
+        <p class="sm:text-[18px] text-[15px] font-Roboto text-green-500">
+          {{ formatAmount(income) }}
         </p>
       </div>
     </div>
@@ -14,8 +14,8 @@
       <ph-arrow-circle-up :size="24" color="#e01f1f" />
       <div>
         <h4 class="text-[11px] pb-2 pt-1">Expense</h4>
-        <p class="text-[18px] font-Roboto text-red-500">
-          {{ expenses.toFixed(2) }}
+        <p class="sm:text-[18px] text-[15px] font-Roboto text-red-500">
+          {{ formatAmount(expenses) }}
         </p>
       </div>
     </div>
@@ -37,4 +37,13 @@ const props = defineProps({
     required: true,
   },
 });
+
+const formatAmount = (value) => {
+  const formattedValue = Math.abs(value).toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+  return `${value < 0 ? '-' : ''}$${formattedValue}`;
+};
 </script>

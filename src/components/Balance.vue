@@ -6,14 +6,14 @@
       <Logo :width="60" />
     </div>
 
-    <div class="font-Roboto sm:text-3xl text-2xl font-normal whitespace-nowrap sm:py-0 py-12">
+    <div class="font-Roboto sm:text-3xl text-2xl font-normal whitespace-nowrap sm:py-0 py-6">
       0000 XXXX XXXX 1234
     </div>
 
     <div class="flex items-center justify-between space-x-4 w-full">
       <h1
         id="balance"
-        class="text-2xl font-normal font-Roboto"
+        class="sm:text-2xl text-xl font-normal font-Roboto"
       >
         {{ total < 0 ? '-' : '' }}${{
           Math.abs(total).toLocaleString('en-US', {

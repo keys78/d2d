@@ -1,18 +1,5 @@
-<!-- <template>
-  <div class="flex sm:flex-row flex-col sm:space-x-5 sticky top-0 pt-20">
-    <Balance :total="total" />
-    <IncomeExpenses :income="income" :expenses="expenses" />
-  </div>
-  <Transactions
-    :title="'Recent'"
-    :load-more-btn="true"
-    :transactions="transactions?.slice(0, 5)"
-    @transactionDeleted="handleTransactionDeleted"
-  />
-</template> -->
-
 <template>
-<div :class="['flex sm:flex-row flex-col sm:space-x-5', { 'sticky top-0 pt-20': isScrolled } ]">    
+<div :class="['flex sm:flex-row flex-col sm:space-x-5 bg-veryDarkBlue', { 'sticky top-24 z-10 transition-all duration-200': isScrolled } ]">    
     <Balance :total="total" />
     <IncomeExpenses :income="income" :expenses="expenses" />
   </div>
