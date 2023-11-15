@@ -1,6 +1,6 @@
 <template>
   <section class="h-[100px]">
-    <div class="fixed -bottom-4 left-0 w-full mt-10 py-8 backdrop-blur-xl">
+    <div class="fixed -bottom-4 left-0 w-full mt-10 py-8 backdrop-blur-[2px]">
     <div class="flex item-center justify-around bg-darkBlue max-w-[300px] mx-auto rounded-md">
       <router-link to="/">
         <div class="cursor-pointer w-[150px] flex item-center justify-center py-3 rounded-md">

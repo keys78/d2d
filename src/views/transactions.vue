@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-link to="/" title="Back To Homepage">
+    <router-link to="/" title="Back To Homepage" class="b">
       <ph-arrow-left :size="28" color="#848884" />
     </router-link>
     <RecentTransactions
