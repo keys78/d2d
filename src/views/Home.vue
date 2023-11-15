@@ -1,5 +1,18 @@
-<template>
+<!-- <template>
   <div class="flex sm:flex-row flex-col sm:space-x-5 sticky top-0 pt-20">
+    <Balance :total="total" />
+    <IncomeExpenses :income="income" :expenses="expenses" />
+  </div>
+  <Transactions
+    :title="'Recent'"
+    :load-more-btn="true"
+    :transactions="transactions?.slice(0, 5)"
+    @transactionDeleted="handleTransactionDeleted"
+  />
+</template> -->
+
+<template>
+<div :class="['flex sm:flex-row flex-col sm:space-x-5', { 'sticky top-0 pt-20': isScrolled } ]">    
     <Balance :total="total" />
     <IncomeExpenses :income="income" :expenses="expenses" />
   </div>
@@ -15,11 +28,25 @@
 import Balance from "../components/Balance.vue";
 import IncomeExpenses from "../components/IncomeExpenses.vue";
 import Transactions from "../components/Transactions.vue";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
 const transactions = ref([]);
+
+const isScrolled = ref(false);
+
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 15;
+};
+
+window.addEventListener('scroll', handleScroll);
+
+// Remember to remove the event listener when component is unmounted
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
+
 
 onMounted(() => {
   const savedTransactions = JSON.parse(localStorage.getItem("transactions"));
