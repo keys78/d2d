@@ -1,5 +1,8 @@
 <template>
   <div>
+    <router-link to="/" title="Back To Homepage">
+      <ph-arrow-left :size="28" color="#848884" />
+    </router-link>
     <RecentTransactions
       :title="'All Transactions'"
       :transactions="transactions"

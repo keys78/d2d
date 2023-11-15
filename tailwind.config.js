@@ -13,6 +13,7 @@ export default {
         accent: {
           1: "var(--accent1)",
           2: "var(--accent2)",
+          3: "var(--accent3)",
         },
         paleBlue: "var(--paleBlue)",
         grayBlue: "var(--grayBlue)",

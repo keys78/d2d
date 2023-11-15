@@ -1,8 +1,8 @@
 <template>
-  <button @click="openModal">Open Modal 1</button>
+  <!-- <button @click="openModal">Open Modal 1</button> -->
   <modal
-    :show="showAddTransactionModal"
-    @update:show="showAddTransactionModal = $event"
+  
+    :show="show" @update:show="handleModalVisibility"
   >
     <AddTransaction @transactionSubmitted="handleTransactionSubmitted" />
   </modal>
@@ -37,7 +37,9 @@ onMounted(() => {
 const handleTransactionSubmitted = (transactionData) => {
   transactions.value.unshift({
     id: generateUniqueId(),
-    text: transactionData.text,
+    title: transactionData.title,
+    description: transactionData.description,
+    category: transactionData.category,
     amount: transactionData.amount,
     type: transactionData.type,
     date: transactionData.date,
@@ -62,3 +64,8 @@ const saveTransactionsToLocalStorage = () => {
   localStorage.setItem("transactions", JSON.stringify(transactions.value));
 };
 </script>
+
+
+
+  <!-- :show="showAddTransactionModal"
+    @update:show="showAddTransactionModal = $event" -->

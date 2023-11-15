@@ -1,12 +1,12 @@
 <template>
     <div @click="toggleTheme"
-        class="rounded flex p-4 space-x-6 justify-center items-center bg-orange-800">
+        class="rounded flex p-4 space-x-6 justify-center items-center">
         <img src="../../assets/svg/icon-light-theme.svg" alt="Sun" />
-        <label htmlFor="default-toggle" class="w-16 inline-flex relative items-center cursor-pointer">
+        <label htmlFor="default-toggle" class="inline-flex relative items-center cursor-pointer">
             <input type="checkbox" :checked="isDarkMode" @input="toggleTheme" id="default-toggle"
                 class="sr-only peer" />
             <div
-                class="w-10 h-5 rounded-full peer peer-checked:after:translate-x-5 bg-accent-1  peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:left-[3px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:bg-mainPurple">
+                class="w-10 h-5 rounded-full peer peer-checked:after:translate-x-5 bg-accent-2  peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:left-[3px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:bg-darkBlue">
             </div>
         </label>
         <img src="../../assets/svg/icon-dark-theme.svg" alt="Moon" />
@@ -50,7 +50,7 @@
                   const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
                   darkModeMediaQuery.addEventListener('change', handleSystemThemeChange);
   
-                  // Setting document theme to immediately on page mount if user prefers dark mode
+                  // Setting document theme to immediately page mount if user prefers dark mode
                   if (darkModeMediaQuery.matches) {
                       updateDocumentTheme();
                   }

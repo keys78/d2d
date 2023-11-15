@@ -6,7 +6,7 @@
       <Logo :width="60" />
     </div>
 
-    <div class="font-Roboto text-3xl font-normal whitespace-nowrap">
+    <div class="font-Roboto sm:text-3xl text-2xl font-normal whitespace-nowrap sm:py-0 py-12">
       0000 XXXX XXXX 1234
     </div>
 
