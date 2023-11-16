@@ -4,12 +4,14 @@
 
 @layer base {
   :root {
-    --paleBlue: hsl(243, 100%, 93%);
+    --paleBlue: hsl(252, 2%, 51%);
     --grayBlue: hsl(229, 7%, 55%);
-    --darkBlue: hsl(228, 88%, 87%);
-    --veryDarkBlue: hsl(0, 100%, 46%);
+    --darkBlue: hsl(0, 0%, 96%);
+    --burgundy: hsl(348, 96%, 42%);
+    --veryDarkBlue: hsl(0, 0%, 100%);
     --accent1: hsl(6, 100%, 80%);
     --accent2: hsl(335, 100%, 65%);
+    --accent3: hsl(335, 100%, 65%);
   }
 
   @media (prefers-color-scheme: dark) {
@@ -51,7 +53,7 @@
   }
 
   body {
-    @apply bg-veryDarkBlue text-paleBlue transition duration-500 max-w-[1920px] mx-auto
+    @apply bg-veryDarkBlue text-paleBlue max-w-[1920px] mx-auto
     scrollbar-thin scrollbar-thumb-paleBlue scrollbar-track-transparent overflow-y-scroll h-full 
     ; 
   }

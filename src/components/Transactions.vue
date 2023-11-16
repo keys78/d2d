@@ -32,7 +32,6 @@
 
 <script setup>
 import { defineProps, defineEmits, ref, watchEffect, onMounted } from "vue";
-import EditIcon from './../assets/svg/EditIcon.vue'
 import moment from 'moment'
 import { characterLimit } from '../utils/helpers'
 

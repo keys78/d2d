@@ -1,10 +1,9 @@
 <template>
   <!-- <button @click="openModal">Open Modal 1</button> -->
   <modal
-  
-    :show="show" @update:show="handleModalVisibility"
   >
     <AddTransaction @transactionSubmitted="handleTransactionSubmitted" />
+    <Loader v-if="transactionStore.loadingState" />
   </modal>
 </template>
 
@@ -12,62 +11,23 @@
 import Modal from "./../modal/index.vue";
 import { ref, onMounted } from "vue";
 import AddTransaction from "./../AddTransaction.vue";
-
-const handleModalVisibility = ref('')
-const show = ref('')
-const showAddTransactionModal = ref(false);
-
-const openModal = () => {
-  showAddTransactionModal.value = true;
-};
-
-
+import { useTransactionStore } from '../../store/transactions';
 import { useToast } from "vue-toastification";
+import Loader from '../shared/Loader.vue'
+
 
 const toast = useToast();
+const transactionStore = useTransactionStore();
+const showAddTransactionModal = ref(false);
+const transactions = ref(transactionStore.allTransactions || []);
 
-const transactions = ref([]);
 
-onMounted(() => {
-  const savedTransactions = JSON.parse(localStorage.getItem("transactions"));
-
-  if (savedTransactions) {
-    transactions.value = savedTransactions;
-  }
-});
-
-const handleTransactionSubmitted = (transactionData) => {
-  transactions.value.unshift({
-    id: generateUniqueId(),
-    title: transactionData.title,
-    description: transactionData.description,
-    category: transactionData.category,
-    amount: transactionData.amount,
-    type: transactionData.type,
-    date: transactionData.date,
-  });
-
-  saveTransactionsToLocalStorage();
-
-  toast.success("Transaction added.");
+const handleTransactionSubmitted = async (transactionData) => {
+  await transactionStore.addTransactions(transactionData)
+  setTimeout(() => {
+    handleModalVisibility.value = false
+  }, 3000)
 };
 
-// Generate unique ID
-function generateUniqueId() {
-  let id = "";
-  let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  id += letters.charAt(Math.floor(Math.random() * letters.length));
-  id += letters.charAt(Math.floor(Math.random() * letters.length));
-  id += String(Math.random()).slice(2, 6);
-  return id;
-}
 
-const saveTransactionsToLocalStorage = () => {
-  localStorage.setItem("transactions", JSON.stringify(transactions.value));
-};
 </script>
-
-
-
-  <!-- :show="showAddTransactionModal"
-    @update:show="showAddTransactionModal = $event" -->

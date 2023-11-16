@@ -1,28 +1,49 @@
 import { defineStore } from "pinia";
-import { useStructureStore } from "./structure";
+import { generateUniqueId } from "../utils/helpers";
+import { nextTick } from "vue";
+import { useToast } from "vue-toastification";
 
-export const useToolsStore = defineStore("toolsbar", {
+const toast = useToast()
+
+export const useTransactionStore = defineStore("transactions", {
   state: () => ({
-    selectedTool: null,
-    content: true,
-    textEditor: false,
-    structureEditor: false,
-    imageEditor: false,
-    buttonEditor: false,
-    sectionEditor: false,
+    transactions: [],
+    isLoading: false,
   }),
+
   actions: {
-    toggleEditorStyle(key: any) {
-      this.selectedTool = key
-      this.textEditor = key === "text";
-      this.structureEditor = key === "layout";
-      this.imageEditor = key === "image";
-      this.buttonEditor = key === "button";
-      this.sectionEditor = key === "section";
-      this.content = false; // Set this to false only if no editor is active
+    saveTransactionsToLocalStorage() {
+      localStorage.setItem("transactions", JSON.stringify(this.transactions));
     },
-    toggleContent() {
-      this.content = !this.content;
+
+    getLocalStorageData() {
+      const transactionData = JSON.parse(localStorage.getItem("transactions"));
+      if (transactionData) {
+        this.transactions = transactionData
+      }
     },
+
+    addTransactions(transaction) {
+      this.isLoading = true
+      setTimeout(() => {
+        nextTick(() => {
+          this.transactions.unshift({ ...transaction, id: generateUniqueId() })
+          this.saveTransactionsToLocalStorage()
+          this.isLoading = false
+          toast.success("Transaction added.");
+        })
+      }, 3000)
+    },
+
   },
+
+
+  getters: {
+    allTransactions: (state) => {
+      return state.transactions
+    },
+    loadingState: (state) => {
+      return state.isLoading
+    }
+  }
 });

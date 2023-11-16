@@ -22,23 +22,36 @@
       </router-link>
     </div>
   </div>
-  <AddTransactionModal :show="showAddTransactionModal" @update:show="showAddTransactionModal = $event" />
+  <Modal :show="showAddTransactionModal" @update:show="showAddTransactionModal = $event"
+  >
+    <AddTransaction @transactionSubmitted="handleTransactionSubmitted" />
+  </Modal>
   </section>
 </template>
 
 <script setup>
 import { ref } from "vue"
-import HomeIcon from "../../assets/svg/HomeIcon.vue";
-import PlusIcon from "../../assets/svg/PlusIcon.vue";
-import TransactionsIcon from "../../assets/svg/TransactionsIcon.vue";
-import AddTransactionModal from './../modal/AddTransactionModal.vue'
+import AddTransaction from '../AddTransaction.vue'
+import Modal from '../modal/index.vue'
+import { useTransactionStore } from '../../store/transactions';
 
+const transactionStore = useTransactionStore();
+const transactions = ref(transactionStore.allTransactions || []);
 const showAddTransactionModal = ref(false);
 
 const openAddTransactionModal = () => {
   showAddTransactionModal.value = true;
 };
+
+const handleTransactionSubmitted = async (transactionData) => {
+  await transactionStore.addTransactions(transactionData)
+  setTimeout(() => {
+    showAddTransactionModal.value = false
+  }, 3000)
+};
 </script>
+
+
 
 <style scoped>
 a.router-link-exact-active {

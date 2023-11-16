@@ -1,8 +1,20 @@
 <template>
   <h3 class="text-xl font-bold mb-4">Add new transaction</h3>
   <form id="form" @submit.prevent="onSubmit">
-    <Input label="Title" placeholder="Enter transaction title" :value="title" id="title" @update:value="title = $event"/>
-    <Input label="Description" placeholder="Enter a description" :value="description" id="description" @update:value="description = $event"/>
+    <Input
+      label="Title"
+      placeholder="Enter transaction title"
+      :value="title"
+      id="title"
+      @update:value="title = $event"
+    />
+    <Input
+      label="Description"
+      placeholder="Enter a description"
+      :value="description"
+      id="description"
+      @update:value="description = $event"
+    />
 
     <div class="mb-4">
       <label for="category" class="block text-sm font-medium text-gray-700"
@@ -30,9 +42,15 @@
       >
     </div>
 
-    <Input label="Amount"  placeholder="Enter amount"  type="text"  :value="amount"  id="amount"  @update:value="amount = $event"/>
+    <Input
+      label="Amount"
+      placeholder="Enter amount"
+      type="text"
+      :value="amount"
+      id="amount"
+      @update:value="amount = $event"
+    />
 
- 
     <div class="mb-4">
       <label class="block text-sm font-medium text-gray-700"
         >Select transaction type</label
@@ -63,8 +81,11 @@
         >Transaction type is required</span
       >
     </div>
-    <button class="btn bg-accent-3 text-white p-2 rounded-md w-full">
-      Add transaction
+    <button
+      class="btn bg-accent-3 text-white p-2 rounded-md w-full flex items-center justify-center"
+    >
+      <Loader v-if="transactionStore.loadingState" />
+      <p v-else>Add transaction</p>
     </button>
   </form>
 </template>
@@ -73,6 +94,12 @@
 import { useToast } from "vue-toastification";
 import { ref } from "vue";
 import Input from "./shared/Input.vue";
+import { useTransactionStore } from "../store/transactions";
+import Loader from "./shared/Loader.vue";
+
+const transactionStore = useTransactionStore();
+const emit = defineEmits(["transactionSubmitted"]);
+const toast = useToast();
 
 const title = ref("");
 const amount = ref("");
@@ -85,31 +112,18 @@ const categoryBlurred = ref(false);
 const amountBlurred = ref(false);
 const typeBlurred = ref(false);
 
-const toast = useToast();
-
-const emit = defineEmits(["transactionSubmitted"]);
-
 const categories = [
-  { name: "Home", value: "home", color: "#2bc021", icon: "ph-pencil-slash" },
-  { name: "School", value: "school", color: "#ff9900", icon: "ph-pentagram" },
-  { name: "Church", value: "church", color: "#663399", icon: "ph-note-pencil" },
-  { name: "Others", value: "others", color: "#e74c3c", icon: "ph-linux-logo" },
-  { name: "Misc", value: "misc", color: "#1abc9c", icon: "ph-files" },
+  { name: "Home", value: "home" },
+  { name: "School", value: "school" },
+  { name: "Church", value: "church" },
+  { name: "Others", value: "others" },
+  { name: "Misc", value: "misc" },
 ];
 
 const validateField = (fieldName) => {
   switch (fieldName) {
-    case "title":
-      titleBlurred.value = true;
-      break;
-    case "description":
-      descriptionBlurred.value = true;
-      break;
     case "category":
       categoryBlurred.value = true;
-      break;
-    case "amount":
-      amountBlurred.value = true;
       break;
     case "type":
       typeBlurred.value = true;
@@ -120,7 +134,13 @@ const validateField = (fieldName) => {
 };
 
 const onSubmit = () => {
-  if (!title || !description || !amount || !type || !category) {
+  if (
+    !title.value ||
+    !description.value ||
+    !amount.value ||
+    !type.value ||
+    !category.value
+  ) {
     toast.error("Fill all fields.");
     return;
   }
@@ -133,22 +153,24 @@ const onSubmit = () => {
   }
 
   const transactionData = {
-    title,
-    description,
+    title: title.value,
+    description: description.value,
     amount:
-      type === "expense" ? -parseFloat(amount.value) : parseFloat(amount.value),
-    type,
-    category,
+      type.value === "expense"
+        ? -parseFloat(amount.value)
+        : parseFloat(amount.value),
+    type: type.value,
+    category: category.value,
     date: new Date(),
   };
 
   emit("transactionSubmitted", transactionData);
 
   // Clear form fields
-  title.value = "";
-  description.value = "";
-  amount.value = "";
-  type.value = "";
-  category.value = "";
+  // title.value = "";
+  // description.value = "";
+  // amount.value = "";
+  // type.value = "";
+  // category.value = "";
 };
 </script>

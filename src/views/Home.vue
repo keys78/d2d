@@ -17,31 +17,28 @@ import IncomeExpenses from "../components/IncomeExpenses.vue";
 import Transactions from "../components/Transactions.vue";
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useToast } from "vue-toastification";
+import { useTransactionStore } from '../store/transactions'
 
 const toast = useToast();
-const transactions = ref([]);
-
+const transactionStore = useTransactionStore();
+const transactions = ref(transactionStore.allTransactions || []);
 const isScrolled = ref(false);
+
+onMounted(() => {
+  transactionStore.getLocalStorageData()
+  transactions.value = transactionStore.allTransactions
+});
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 15;
 };
 
 window.addEventListener('scroll', handleScroll);
-
-// Remember to remove the event listener when component is unmounted
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
 });
 
 
-onMounted(() => {
-  const savedTransactions = JSON.parse(localStorage.getItem("transactions"));
-
-  if (savedTransactions) {
-    transactions.value = savedTransactions;
-  }
-});
 
 // Get total
 const total = computed(() => {

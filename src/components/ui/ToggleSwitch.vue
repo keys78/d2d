@@ -13,7 +13,7 @@
     </div>
   </template>
   
-  <script>
+  <script >
   import { ref, onMounted } from 'vue';
   
   export default {
