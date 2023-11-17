@@ -10,9 +10,9 @@
       <div class="absolute flex flex-col items-center z-10 ">
         <div class="rounded-full h-16 w-16 bg-veryDarkBlue -mt-8"></div>
         <div 
-        @click="openAddTransactionModal" 
+        @click="showModal = true" 
           class="bg-accent-3 rounded-full h-12 w-12 flex items-center justify-center -mt-14 cursor-pointer">
-          <ph-plus :size="28" color="#f0f0f0" :class="[showAddTransactionModal ? 'rotate-45 transition-all duration-300' : 'rotate-180 transition-all duration-300']"/>
+          <ph-plus :size="28" color="#f0f0f0" :class="[showModal === true ? 'rotate-45 transition-all duration-300' : 'rotate-180 transition-all duration-300']"/>
         </div>
       </div>
       <router-link to="/transactions">
@@ -22,7 +22,7 @@
       </router-link>
     </div>
   </div>
-  <Modal :show="showAddTransactionModal" @update:show="showAddTransactionModal = $event"
+  <Modal :show="showModal"
   >
     <AddTransaction @transactionSubmitted="handleTransactionSubmitted" />
   </Modal>
@@ -37,17 +37,17 @@ import { useTransactionStore } from '../../store/transactions';
 
 const transactionStore = useTransactionStore();
 const transactions = ref(transactionStore.allTransactions || []);
-const showAddTransactionModal = ref(false);
+const showModal = ref(false);
 
-const openAddTransactionModal = () => {
-  showAddTransactionModal.value = true;
-};
+// const openAddTransactionModal = () => {
+//   showModal.value = true;
+// };
 
 const handleTransactionSubmitted = async (transactionData) => {
   await transactionStore.addTransactions(transactionData)
   setTimeout(() => {
-    showAddTransactionModal.value = false
-  }, 3000)
+    showModal.value = false
+  }, 1000)
 };
 </script>
 

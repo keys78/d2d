@@ -11,28 +11,18 @@
     </div>
 
     <div class="flex items-center justify-between space-x-4 w-full">
-      <h1
-        id="balance"
-        class="sm:text-2xl text-xl font-normal font-Roboto"
-      >
-        {{ total < 0 ? '-' : '' }}${{
-          Math.abs(total).toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })
-        }}
+      <h1 id="balance" class="sm:text-2xl text-xl font-normal font-Roboto text-gray-400">
+        <CountUp :total="total" :animationOptions="{ duration: 2, prefix: '$', suffix: '', decimalPlaces: 2 }" />
       </h1>
-      <span
-        v-if="total < 0"
-        class="bg-burgundy px-2 py-1 rounded-md text-white"
-      >Overdraft</span>
+      <span v-if="total < 0" class="bg-burgundy px-2 py-1 rounded-md text-white">Overdraft</span>
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, ref, onMounted, watch } from 'vue';
 import Logo from './../assets/svg/Logo.vue';
+import CountUp from './shared/CountUp.vue';
 
 const props = defineProps({
   total: {
@@ -40,4 +30,5 @@ const props = defineProps({
     required: true,
   },
 });
+
 </script>

@@ -14,3 +14,8 @@ export const characterLimit = (text, limit) => {
     id += String(Math.random()).slice(2, 6);
     return id;
   }
+
+  export const formattedAmount = (amount, type) => {
+    const formatted = new Intl.NumberFormat().format(Math.abs(amount).toFixed(2));
+    return type === 'expense' ? `-$${formatted}` : `$${formatted}`;
+  };

@@ -1,10 +1,11 @@
 <template>
-  <div class="flex items-center justify-between pt-10 pb-4">
+  <section>
+    <div class="flex items-center justify-between pt-10 pb-4">
     <h3>{{ title }}</h3>
-    <a v-if="loadMoreBtn" href="/transactions">View all</a>
+    <router-link v-if="loadMoreBtn" to="/transactions">View all</router-link>
   </div>
 
-  <ul v-if="transactions.length > 0">
+    <TransitionGroup name="list" tag="ul" v-if="transactions.length > 0">
     <li
       v-for="transaction in transactions"
       :key="transaction.id"
@@ -22,20 +23,60 @@
       <aside class="flex items-center -mr-[140px] transition-all duration-300">
         <button class="p-[13px] bg-grayBlue" @click="showTransactionInfo(transaction?.id)"><ph-info :size="20" color="#E5E4E2" /></button>
         <button class="p-[13px] bg-orange-400"><ph-note-pencil :size="20" color="#E5E4E2" /></button>
-        <button class="p-[13px] bg-burgundy rounded-r-md" @click="deleteTransaction(transaction?.id)"><ph-trash-simple :size="20" color="#E5E4E2" /></button>
+        <button class="p-[13px] bg-burgundy rounded-r-md" @click="handleOpenDeleteModal(transaction?.id)"><ph-trash-simple :size="20" color="#E5E4E2" /></button>
       </aside>
     </li>
-  </ul>
-
+  </TransitionGroup>
   <p v-else>No transactions available.</p>
+
+  <Modal>
+    <h3 class="text-xl font-bold mb-4">Delete transaction</h3>
+  </Modal>
+
+  <Modal :show="showDeleteModal" @update:show="showDeleteModal = $event">
+    <h3 class="text-xl font-bold mb-4 text-red-400">Delete transaction</h3>
+    <p>
+      Are you sure you want to delete transaction id {{ '#xxxx' }}, this action can not be reversed
+    </p>
+    <div class="flex items-center justify-between pt-6">
+      <button @click="transactionStore.handleTransactionDeleted(transactionId)" class="py-2 px-3 bg-red-400 text-white rounded-md flex items-center"><ph-trash-simple :size="20" color="#E5E4E2" /> &nbsp; Delete</button>
+      <button @click="handleCloseDeleteModal" class="py-2 px-3 bg-darkBlue rounded-md flex items-center"><ph-prohibit :size="20" color="#808080" /> &nbsp; Cancel</button>
+    </div>
+  </Modal>
+  </section>
 </template>
 
 <script setup>
 import { defineProps, defineEmits, ref, watchEffect, onMounted } from "vue";
-import moment from 'moment'
-import { characterLimit } from '../utils/helpers'
+import moment from 'moment';
+import Modal from '../components/modal/index.vue';
+import { characterLimit, formattedAmount } from '../utils/helpers';
+import { useTransactionStore } from "../store/transactions";
+
+
+onMounted(() => {
+  handleResize();
+  window.addEventListener('resize', handleResize);
+});
+
+const handleResize = () => {
+  computedLimit.value = window.innerWidth > 767 ? 20 : 10;
+};
 
 const computedLimit = ref(window.innerWidth > 767 ? 20 : 10);
+
+const showDeleteModal = ref(false);
+const transactionStore = useTransactionStore();
+
+const transactionId = ref('')
+
+const handleOpenDeleteModal = (id) => {
+  showDeleteModal.value = true;
+  transactionId.value = id
+};
+const handleCloseDeleteModal = () => {
+  showDeleteModal.value = false;
+};
 
 const props = defineProps({
   transactions: {
@@ -55,26 +96,26 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["transactionDeleted"]);
+// const emit = defineEmits(["transactionDeleted"]);
 
-const deleteTransaction = (id) => {
-  emit("transactionDeleted", id);
-};
-
-
-const handleResize = () => {
-  computedLimit.value = window.innerWidth > 767 ? 20 : 10;
-};
-
-onMounted(() => {
-  handleResize();
-  window.addEventListener('resize', handleResize);
-});
-
-const formattedAmount = (amount, type) => {
-  const formatted = new Intl.NumberFormat().format(Math.abs(amount).toFixed(2));
-  return type === 'expense' ? `-$${formatted}` : `$${formatted}`;
-};
-
+// const deleteTransaction = (id) => {
+//   emit("transactionDeleted", id);
+// };
 
 </script>
+
+
+<style>
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+.list-leave-active {
+  position: absolute;
+}
+</style>
