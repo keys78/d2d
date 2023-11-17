@@ -17,14 +17,14 @@
     />
 
     <div class="mb-4">
-      <label for="category" class="block text-sm font-medium text-gray-700"
+      <label for="category" class="block text-sm font-medium text-paleBlue"
         >Category</label
       >
       <select
         id="category"
         v-model="category"
         @blur="validateField('category')"
-        class="mt-1 p-2 border rounded-md w-full"
+        class="mt-1 p-2 border rounded-md w-full bg-darkBlue border-darkBlue"
       >
         <option value="">Select category</option>
         <option
@@ -51,8 +51,8 @@
       @update:value="amount = $event"
     />
 
-    <div class="mb-4">
-      <label class="block text-sm font-medium text-gray-700"
+    <div class="mb-10">
+      <label class="block text-sm font-medium text-paleBlue"
         >Select transaction type</label
       >
       <div>

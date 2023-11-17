@@ -1,6 +1,6 @@
 <template>
     <div class="mb-4">
-      <label :for="id" class="block text-sm font-medium text-gray-700">{{ label }}</label>
+      <label :for="id" class="block text-sm font-medium text-paleBlue">{{ label }}</label>
       <input
         :type="type"
         :id="id"
@@ -8,7 +8,7 @@
         :value="value"
         @input="handleInput"
         @blur="validateField"
-        class="mt-1 p-2 border rounded-md w-full"
+        class="mt-1 p-2 border rounded-md w-full text-paleBlue bg-darkBlue border-darkBlue"
       />
       <span v-if="!isValid && inputBlurred" class="text-red-500 text-xs">{{ errorMessage }}</span>
     </div>
@@ -16,6 +16,7 @@
   
   <script setup>
   import { ref, computed, defineProps, defineEmits } from "vue";
+  
   
   const props = defineProps({
   label: {

@@ -59,20 +59,6 @@ export const useTransactionStore = defineStore("transactions", {
     handleTransactionDeleted(id) {
       this.transactions.filter((transaction) => transaction.id !== id);
       this.saveTransactionsToLocalStorage();
-
-
-      // this.isLoading = true;
-      // setTimeout(() => {
-      //   nextTick(() => {
-      //     const updatedArr = this.transactions.filter((transaction) =>
-      //       transaction.id !== id
-      //     );
-      //     this.saveTransactionsToLocalStorage();
-      //     this.isLoading = false;
-      //     toast.success("Transaction deleted.");
-      //     return updatedArr;
-      //   });
-      // }, 0);
     },
 
   },
