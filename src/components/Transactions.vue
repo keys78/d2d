@@ -21,16 +21,20 @@
       </aside>
       
       <aside class="flex items-center -mr-[140px] transition-all duration-300">
-        <button class="p-[13px] bg-grayBlue" @click="showTransactionInfo(transaction?.id)"><ph-info :size="20" color="#E5E4E2" /></button>
-        <button class="p-[13px] bg-orange-400"><ph-note-pencil :size="20" color="#E5E4E2" /></button>
+        <button class="p-[13px] bg-grayBlue" @click="handleOpenDetailsModal(transaction?.id)"><ph-info :size="20" color="#E5E4E2" /></button>
+        <button class="p-[13px] bg-orange-400" @click="handleShowEditModal(transaction?.id)"><ph-note-pencil :size="20" color="#E5E4E2" /></button>
         <button class="p-[13px] bg-burgundy rounded-r-md" @click="handleOpenDeleteModal(transaction?.id)"><ph-trash-simple :size="20" color="#E5E4E2" /></button>
       </aside>
     </li>
   </TransitionGroup>
   <p v-else>No transactions available.</p>
 
-  <Modal>
-    <h3 class="text-xl font-bold mb-4">Delete transaction</h3>
+  <Modal :show="showDetailsModal" @update:show="showDetailsModal = $event">
+    <TransactionDetails :transactionId="transactionId"/>
+  </Modal>
+
+  <Modal :show="showEditModal" @update:show="showEditModal = $event">
+    <EditTransaction :transactionId="transactionId" :transactionEdit="transactionEdit"/>
   </Modal>
 
   <Modal :show="showDeleteModal" @update:show="showDeleteModal = $event">
@@ -50,8 +54,11 @@
 import { defineProps, defineEmits, ref, watchEffect, onMounted } from "vue";
 import moment from 'moment';
 import Modal from '../components/modal/index.vue';
+import CountUp from "./shared/CountUp.vue";
 import { characterLimit, formattedAmount } from '../utils/helpers';
 import { useTransactionStore } from "../store/transactions";
+import TransactionDetails from "./TransactionDetails.vue";
+import EditTransaction from "./EditTransaction.vue";
 
 
 onMounted(() => {
@@ -66,6 +73,8 @@ const handleResize = () => {
 const computedLimit = ref(window.innerWidth > 767 ? 20 : 10);
 
 const showDeleteModal = ref(false);
+const showDetailsModal = ref(false);
+const showEditModal = ref(false);
 const transactionStore = useTransactionStore();
 
 const transactionId = ref('')
@@ -74,8 +83,29 @@ const handleOpenDeleteModal = (id) => {
   showDeleteModal.value = true;
   transactionId.value = id
 };
+
+const selectedTransaction = ref(null);
+
+const handleOpenDetailsModal = (id) => {
+  showDetailsModal.value = true;
+  transactionId.value = id
+};
+
+const handleShowEditModal = (id) => {
+  showEditModal.value = true;
+  transactionId.value = id
+};
+
+
 const handleCloseDeleteModal = () => {
   showDeleteModal.value = false;
+};
+
+const transactionEdit = async (transactionData) => {
+  await transactionStore.editTransaction(transactionData)
+  setTimeout(() => {
+    showEditModal.value = false
+  }, 1000)
 };
 
 const props = defineProps({
@@ -95,12 +125,6 @@ const props = defineProps({
     default: false,
   },
 });
-
-// const emit = defineEmits(["transactionDeleted"]);
-
-// const deleteTransaction = (id) => {
-//   emit("transactionDeleted", id);
-// };
 
 </script>
 

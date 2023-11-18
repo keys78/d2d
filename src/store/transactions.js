@@ -45,6 +45,7 @@ export const useTransactionStore = defineStore("transactions", {
 
 
     addTransactions(transaction) {
+      //set timeout to mimic an api respone time here
       this.isLoading = true
       setTimeout(() => {
         nextTick(() => {
@@ -56,9 +57,38 @@ export const useTransactionStore = defineStore("transactions", {
       }, 1000)
     },
 
-    handleTransactionDeleted(id) {
-      this.transactions.filter((transaction) => transaction.id !== id);
-      this.saveTransactionsToLocalStorage();
+    editTransaction(val) {
+      this.isLoading = true;
+      setTimeout(() => {
+        nextTick(() => {
+          const index = this.transactions.findIndex(
+            (transaction) => transaction.id === val.id
+          );
+          if (index !== -1) {
+            this.transactions.splice(index, 1, val);
+            this.saveTransactionsToLocalStorage();
+            this.isLoading = false;
+            toast.success("Transaction updated.");
+          }
+        })
+      }, 1000)
+    },
+
+    getSingleTransaction(id) {
+      return this.transactions.find((transaction) => transaction.id === id);
+    },
+
+    deleteTransaction(id) {
+      this.isLoading = true;
+      nextTick(() => {
+        this.transactions = this.transactions.filter(
+          (transaction) => transaction.id !== id
+
+        );
+        this.saveTransactionsToLocalStorage();
+        toast.success("Transaction deleted.");
+        this.isLoading = false;
+      });
     },
 
   },

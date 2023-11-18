@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-xl font-bold mb-4">Add new transaction</h3>
+  <h3 class="text-xl font-bold mb-4">Edit Transactions</h3>
   <form id="form" @submit.prevent="onSubmit">
     <Input
       label="Title"
@@ -8,6 +8,7 @@
       id="title"
       @update:value="title = $event"
     />
+
     <Textarea
       label="Description"
       placeholder="Enter a description"
@@ -85,22 +86,25 @@
       class="btn bg-accent-3 text-white p-2 rounded-md w-full flex items-center justify-center"
     >
       <Loader v-if="transactionStore.loadingState" />
-      <p v-else>Add Transaction</p>
+      <p v-else>Edit Transaction</p>
     </button>
   </form>
 </template>
 
 <script setup>
+import { defineProps, ref, onMounted } from "vue";
+import moment from "moment";
+import CountUp from "../components/shared/CountUp.vue";
+import { useTransactionStore } from "../store/transactions";
 import { useToast } from "vue-toastification";
-import { ref } from "vue";
 import Input from "./shared/Input.vue";
 import Textarea from "./shared/Textarea.vue";
-import { useTransactionStore } from "../store/transactions";
 import Loader from "./shared/Loader.vue";
 
-const transactionStore = useTransactionStore();
-const emit = defineEmits(["transactionSubmitted"]);
+const emit = defineEmits(["transactionEdit"]);
 const toast = useToast();
+const selectedTransaction = ref(null);
+const transactionStore = useTransactionStore();
 
 const title = ref("");
 const amount = ref("");
@@ -112,6 +116,33 @@ const descriptionBlurred = ref(false);
 const categoryBlurred = ref(false);
 const amountBlurred = ref(false);
 const typeBlurred = ref(false);
+
+const props = defineProps({
+  transactionId: {
+    type: String,
+    required: true,
+    default: "",
+  },
+});
+
+onMounted(() => {
+  selectedTransaction.value = transactionStore.getSingleTransaction(
+    props.transactionId
+  );
+
+  if (selectedTransaction.value) {
+    title.value = selectedTransaction.value.title;
+    description.value = selectedTransaction.value.description;
+    if (selectedTransaction.value.type === 'expense') {
+      amount.value = Math.abs(selectedTransaction.value.amount).toString();
+    } else {
+      amount.value = selectedTransaction.value.amount.toString();
+    }
+    type.value = selectedTransaction.value.type;
+    category.value = selectedTransaction.value.category;
+  }
+});
+
 
 const categories = [
   { name: "Home", value: "home" },
@@ -140,14 +171,14 @@ const onSubmit = () => {
     return;
   }
 
-  // handling input when its a number and you want to use decximal wirhin
   const parsedAmount = parseFloat(amount.value);
   if (isNaN(parsedAmount)) {
     toast.error("Please enter a valid amount.");
     return;
   }
 
-  const transactionData = {
+  const transactionDataEdit = {
+    id: selectedTransaction.value.id,
     title: title.value,
     description: description.value,
     amount:
@@ -159,7 +190,9 @@ const onSubmit = () => {
     date: new Date(),
   };
 
-  emit("transactionSubmitted", transactionData);
+  transactionStore.editTransaction(transactionDataEdit);
+  emit("transactionEdit", transactionDataEdit);
+
 
 };
 </script>

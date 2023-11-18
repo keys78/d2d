@@ -52,8 +52,9 @@ onClickOutside(modalRef, () => {
 }
 
 .modal-container {
-  width: 400px;
+  width: 450px;
   width: full;
+  margin: 16px;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(29, 73, 116, 0.2);

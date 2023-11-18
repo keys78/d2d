@@ -23,7 +23,7 @@ const props = defineProps({
       prefix: "$",
       suffix: "",
       decimalPlaces: 2,
-      duration: 2,
+      duration: 0.2,
     }),
   },
 });
