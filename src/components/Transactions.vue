@@ -1,8 +1,8 @@
 <template>
   <section>
     <div class="flex items-center justify-between pt-10 pb-4">
-      <h3>{{ title }}</h3>
-      <router-link to="/transactions"><span class="" v-if="loadMoreBtn">View all</span> ({{ filteredTransactions?.length }})</router-link>
+      <h3>{{ title }} <span v-if="showListTotal">({{ filteredTransactions?.length }})</span></h3>
+      <router-link to="/transactions"><span class="" v-if="loadMoreBtn">View all</span> </router-link>
     </div>
 
     <span v-if="showTabs">
@@ -11,7 +11,7 @@
 
     <TransitionGroup name="list" tag="ul" v-if="filteredTransactions.length > 0">
       <li v-for="transaction in filteredTransactions" :key="transaction.id"
-        class=" flex items-center group overflow-x-hidden mb-4 hover:cursor-pointer sm:text-[16px] text-[14px]">
+        class=" flex items-center group overflow-x-hidden mb-4 hover:cursor-pointer sm:text-[16px] text-[14px] shadow">
         <aside
           class="w-full group-hover:-ml-[140px] transition-all duration-300 grid sm:grid-cols-8 grid-cols-11 items-center justify-between py-3 px-3 bg-darkBlue rounded-l-md">
           <span class="sm:col-span-2 col-span-3 font-bold text-gray-500"> #{{ transaction?.id }}</span>
@@ -113,6 +113,11 @@ const props = defineProps({
     default: "Transactions",
   },
   showTabs: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  showListTotal: {
     type: Boolean,
     required: false,
     default: false,

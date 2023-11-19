@@ -6,6 +6,7 @@
     <Transactions
       :title="'Transactions'"
       :showTabs="true"
+      :showListTotal="true"
       :transactions="transactions"
     />
   </div>
