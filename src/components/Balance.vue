@@ -14,7 +14,7 @@
       <h1 id="balance" class="sm:text-2xl text-xl font-normal font-Roboto text-gray-400">
         <CountUp :total="total" :animationOptions="{ duration: 2, prefix: '$', suffix: '', decimalPlaces: 2 }" />
       </h1>
-      <span v-if="total < 0" class="bg-burgundy px-2 py-1 rounded-md text-white">Overdraft</span>
+      <span v-if="total < 0" class="bg-accent-3 text-xs px-2 py-1 rounded-md text-white">Overdraft</span>
     </div>
   </div>
 </template>

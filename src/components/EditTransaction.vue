@@ -53,7 +53,7 @@
     />
 
     <div class="mb-10">
-      <label class="block text-sm font-medium text-paleBlue"
+      <label class="block text-sm font-medium text-paleBlue  pb-2"
         >Select transaction type</label
       >
       <div>
@@ -93,15 +93,13 @@
 
 <script setup>
 import { defineProps, ref, onMounted } from "vue";
-import moment from "moment";
-import CountUp from "../components/shared/CountUp.vue";
 import { useTransactionStore } from "../store/transactions";
 import { useToast } from "vue-toastification";
 import Input from "./shared/Input.vue";
 import Textarea from "./shared/Textarea.vue";
 import Loader from "./shared/Loader.vue";
 
-const emit = defineEmits(["transactionEdit"]);
+const emit = defineEmits(["update:show"]);
 const toast = useToast();
 const selectedTransaction = ref(null);
 const transactionStore = useTransactionStore();
@@ -133,7 +131,7 @@ onMounted(() => {
   if (selectedTransaction.value) {
     title.value = selectedTransaction.value.title;
     description.value = selectedTransaction.value.description;
-    if (selectedTransaction.value.type === 'expense') {
+    if (selectedTransaction.value.type === "expense") {
       amount.value = Math.abs(selectedTransaction.value.amount).toString();
     } else {
       amount.value = selectedTransaction.value.amount.toString();
@@ -142,7 +140,6 @@ onMounted(() => {
     category.value = selectedTransaction.value.category;
   }
 });
-
 
 const categories = [
   { name: "Home", value: "home" },
@@ -165,8 +162,14 @@ const validateField = (fieldName) => {
   }
 };
 
+const closeEditModal = () => {
+  setTimeout(() => {
+    emit("update:show", false);
+  }, 1000); 
+};
+
 const onSubmit = () => {
-  if ( !title.value || !description.value || !amount.value || !type.value || !category.value ) {
+  if ( !title.value || !description.value || !amount.value || !type.value || !category.value) {
     toast.error("All field must be updated.");
     return;
   }
@@ -177,7 +180,7 @@ const onSubmit = () => {
     return;
   }
 
-  const transactionDataEdit = {
+  const editedTransactionData  = {
     id: selectedTransaction.value.id,
     title: title.value,
     description: description.value,
@@ -190,9 +193,10 @@ const onSubmit = () => {
     date: new Date(),
   };
 
-  transactionStore.editTransaction(transactionDataEdit);
-  emit("transactionEdit", transactionDataEdit);
+  transactionStore.editTransaction(editedTransactionData );
 
-
+  // Close the modal after editing is done
+  closeEditModal(editedTransactionData );
+  
 };
 </script>

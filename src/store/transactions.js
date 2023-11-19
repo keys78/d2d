@@ -74,21 +74,27 @@ export const useTransactionStore = defineStore("transactions", {
       }, 1000)
     },
 
-    getSingleTransaction(id) {
-      return this.transactions.find((transaction) => transaction.id === id);
-    },
 
     deleteTransaction(id) {
       this.isLoading = true;
-      nextTick(() => {
-        this.transactions = this.transactions.filter(
-          (transaction) => transaction.id !== id
+      setTimeout(() => {
+        nextTick(() => {
+          const index = this.transactions.findIndex(
+            (transaction) => transaction.id === id
+          );
+          if (index !== -1) {
+            this.transactions.splice(index, 1);
+            this.saveTransactionsToLocalStorage();
+            toast.success("Transaction deleted.");
+            this.isLoading = false;
+          }
+        });
+      }, 1000);
+    },
 
-        );
-        this.saveTransactionsToLocalStorage();
-        toast.success("Transaction deleted.");
-        this.isLoading = false;
-      });
+   
+    getSingleTransaction(id) {
+      return this.transactions.find((transaction) => transaction.id === id);
     },
 
   },

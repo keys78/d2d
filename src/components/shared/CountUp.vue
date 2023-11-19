@@ -1,15 +1,24 @@
 <template>
   <div>
-    <count-up
-      :end-val="animatedTotal"
-      :options="computedCountUpOptions"
-      ref="countup"
-    ></count-up>
+    <div v-if="animatedTotal >= 0">
+      <count-up
+        :end-val="animatedPositiveTotal"
+        :options="computedPositiveCountUpOptions"
+        ref="positiveCountup"
+      ></count-up>
+    </div>
+    <div v-else>
+      <count-up
+        :end-val="animatedNegativeTotal"
+        :options="computedNegativeCountUpOptions"
+        ref="negativeCountup"
+      ></count-up>
+    </div>
   </div>
 </template>
-  
-  <script setup>
-import { ref, onMounted, watch } from "vue";
+
+<script setup>
+import { ref, onMounted, watch, defineProps } from "vue";
 import CountUp from "vue-countup-v3";
 
 const props = defineProps({
@@ -17,42 +26,54 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  animationOptions: {
-    type: Object,
-    default: () => ({
-      prefix: "$",
-      suffix: "",
-      decimalPlaces: 2,
-      duration: 0.2,
-    }),
-  },
 });
 
-const animatedTotal = ref(
-  props.total < 0 ? -Math.abs(props.total) : Math.abs(props.total)
-);
-const countupRef = ref(null);
+const animatedTotal = ref(props.total);
+const animatedPositiveTotal = ref(Math.max(0, props.total));
+const animatedNegativeTotal = ref(Math.min(0, props.total));
+const positiveCountupRef = ref(null);
+const negativeCountupRef = ref(null);
 
 onMounted(() => {
-  if (countupRef.value) {
-    countupRef.value.start();
+  if (props.total >= 0 && positiveCountupRef.value) {
+    positiveCountupRef.value.start();
+  } else if (props.total < 0 && negativeCountupRef.value) {
+    negativeCountupRef.value.start();
   }
 });
 
 watch(
   () => props.total,
   (newValue) => {
-    animatedTotal.value =
-      newValue < 0 ? -Math.abs(newValue) : Math.abs(newValue);
-    if (countupRef.value) {
-      countupRef.value.update(Math.abs(newValue));
+    animatedTotal.value = newValue;
+    if (newValue >= 0) {
+      animatedPositiveTotal.value = newValue;
+      if (positiveCountupRef.value) {
+        positiveCountupRef.value.update(newValue);
+      }
+    } else {
+      animatedNegativeTotal.value = newValue;
+      if (negativeCountupRef.value) {
+        negativeCountupRef.value.update(newValue);
+      }
     }
   }
 );
 
-const computedCountUpOptions = {
-  ...props.animationOptions,
-  startVal: props.total < 0 ? -Math.abs(props.total) : 0, // Starting value for negative balance
+const computedPositiveCountUpOptions = {
+  prefix: "$",
+  suffix: "",
+  decimalPlaces: 2,
+  duration: 1, 
+  startVal: 0,
+};
+
+const computedNegativeCountUpOptions = {
+  prefix: "$",
+  suffix: "",
+  decimalPlaces: 2,
+  duration: 1, 
+  startVal: 0,
+  useEasing: true, 
 };
 </script>
-  

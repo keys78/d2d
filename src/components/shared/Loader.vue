@@ -1,5 +1,5 @@
 <template>
-  <div className="loading-icon">
+  <div className="loading-icon py-[2px]">
     <span></span>
     <span></span>
     <span></span>

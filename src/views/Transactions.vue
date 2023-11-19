@@ -4,7 +4,8 @@
       <ph-arrow-left :size="28" color="#848884" />
     </router-link>
     <Transactions
-      :title="'All Transactions'"
+      :title="'Transactions'"
+      :showTabs="true"
       :transactions="transactions"
     />
   </div>

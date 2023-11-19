@@ -52,7 +52,7 @@
     />
 
     <div class="mb-10">
-      <label class="block text-sm font-medium text-paleBlue"
+      <label class="block text-sm font-medium text-paleBlue pb-2"
         >Select transaction type</label
       >
       <div>
@@ -136,7 +136,7 @@ const validateField = (fieldName) => {
 
 const onSubmit = () => {
   if ( !title.value || !description.value || !amount.value || !type.value || !category.value ) {
-    toast.error("All field must be updated.");
+    toast.error("All field must be filled.");
     return;
   }
 
