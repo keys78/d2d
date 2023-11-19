@@ -33,18 +33,4 @@ const props = defineProps({
   },
 });
 
-// Reference to audio elements
-// const gainAudio = new Audio(GainAudio);
-// const lossAudio = new Audio(LossAudio);
-
-// // Watch for changes in the total and play audio accordingly
-// watch(() => props.total, (newValue, oldValue) => {
-//   if (newValue > oldValue) {
-//     // Play gain audio when the balance increases
-//     gainAudio.play();
-//   } else if (newValue < oldValue) {
-//     // Play loss audio when the balance decreases
-//     lossAudio.play();
-//   }
-// });
 </script>
