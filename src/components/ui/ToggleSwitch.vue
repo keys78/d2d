@@ -1,6 +1,6 @@
 <template>
     <div @click="toggleTheme"
-        class="rounded flex p-4 space-x-6 justify-center items-center">
+        class="rounded flex p-4 space-x-2 justify-center items-center">
         <img src="../../assets/svg/icon-light-theme.svg" alt="Sun" />
         <label htmlFor="default-toggle" class="inline-flex relative items-center cursor-pointer">
             <input type="checkbox" :checked="isDarkMode" @input="toggleTheme" id="default-toggle"

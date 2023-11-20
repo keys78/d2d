@@ -7,7 +7,12 @@
 
     <span v-if="showTabs">
       <Tabs :filterTransactions="filterTransactions" />
+      <SearchFilter :filteredTransactions="filteredTransactions" @updateSearch="handleSearch" />
+
     </span>
+    <span  v-if="showTabs">
+    </span>
+    
 
     <TransitionGroup name="list" tag="ul" v-if="filteredTransactions.length > 0">
       <li v-for="transaction in filteredTransactions" :key="transaction.id"
@@ -33,7 +38,8 @@
         </aside>
       </li>
     </TransitionGroup>
-    <p v-else>No transactions available.</p>
+    <p v-else-if="!searchTerm.trim() && transactions.length === 0">No transactions available.</p>
+    <p v-else>No matching transactions found.</p>
 
     <Modal :show="showDetailsModal" @update:show="showDetailsModal = $event">
       <TransactionDetails :transactionId="transactionId" />
@@ -60,6 +66,7 @@ import TransactionDetails from "./TransactionDetails.vue";
 import EditTransaction from "./EditTransaction.vue";
 import DeleteTransaction from "./DeleteTransaction.vue";
 import Tabs from '../components/ui/Tabs.vue'
+import SearchFilter from '../components/ui/SearchFilter.vue'
 
 
 onMounted(() => {
@@ -132,26 +139,34 @@ const props = defineProps({
 
 
 
-// Function to handle tab changes and filtering
 const filterTransactions = (tab) => {
   activeTab.value = tab;
 };
 
 
-// Filtered transactions computed property based on active tab
+const searchTerm = ref('');
+
+const handleSearch = (value) => {
+  searchTerm.value = value.toLowerCase();
+};
+
 const filteredTransactions = computed(() => {
-  if (activeTab.value === 'income') {
-    return props.transactions.filter(transaction => transaction.type === 'income');
-  } else if (activeTab.value === 'expense') {
-    return props.transactions.filter(transaction => transaction.type === 'expense');
+  let filtered = props.transactions;
+
+  if (searchTerm.value.trim() !== '') {
+    filtered = filtered.filter(transaction =>
+      transaction.title.toLowerCase().includes(searchTerm.value)
+    );
   }
-  // If active tab is 'all' or invalid, return all transactions
-  return props.transactions;
+
+  if (activeTab.value === 'income') {
+    return filtered.filter(transaction => transaction.type === 'income');
+  } else if (activeTab.value === 'expense') {
+    return filtered.filter(transaction => transaction.type === 'expense');
+  }
+
+  return filtered;
 });
-
-
-
-
 </script>
 
 
