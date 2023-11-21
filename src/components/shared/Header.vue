@@ -2,7 +2,9 @@
   <header class="shadow py-3 !fixed top-0 w-full bg-veryDarkBlue z-50">
     <section class=" s-767:px-20 px-4">
       <div class="flex items-center justify-between max-w-[600px] mx-auto">
-        <Logo :width="100" :height="50"/>
+        <router-link to="/">
+          <Logo :width="100" :height="50" />
+        </router-link>
         <div class="cursor-pointer" @click="toggleSound">
           <span v-if="soundOn"><ph-speaker-slash :size="24" color="#828FA3" /></span>
           <span v-else><ph-speaker-high :size="24" color="#828FA3" /></span>
@@ -33,7 +35,7 @@ const totalBalance = computed(() => transactionStore.getTotalBalance());
 
 const toggleSound = () => {
   soundOn.value = !soundOn.value;
-  localStorage.setItem('soundOn', JSON.stringify(soundOn.value)); 
+  localStorage.setItem('soundOn', JSON.stringify(soundOn.value));
 };
 
 let soundWatcher = null;

@@ -9,9 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@heroicons/vue": "^2.0.18",
     "@vueuse/core": "^10.6.1",
-    "mitt": "^3.0.1",
+    "chart.js": "^4.4.0",
     "moment": "^2.29.4",
     "phosphor-vue": "^4.4.1",
     "pinia": "^2.1.7",

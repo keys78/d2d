@@ -13,12 +13,6 @@
 <script setup>
 import { defineProps, defineEmits, ref } from 'vue';
 
-const props = defineProps({
-  filteredTransactions: {
-    type: Array,
-    required: true,
-  },
-});
 
 const emit = defineEmits(['updateSearch']);
 const searchTerm = ref('');

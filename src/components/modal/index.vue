@@ -1,5 +1,5 @@
 <template>
-  <!-- <teleport to="#main"> -->
+  <teleport to="#main">
     <transition name="modal" mode="out-in" appear>
       <div v-if="showModal" class="modal-overlay">
         <div class="modal-container bg-veryDarkBlue relative" ref="modalRef">
@@ -10,7 +10,7 @@
         </div>
       </div>
     </transition>
-  <!-- </teleport> -->
+  </teleport>
 </template>
   
   <script setup>

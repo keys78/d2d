@@ -1,13 +1,12 @@
 <template>
   <div
-    class="w-full rounded-[10px] bg-gradient-to-r from-[#292e49] via-[#292e49yarn d] to-[#536976] text-grayBlue p-4 flex flex-col items-start justify-between"
-  >
+    class="w-full rounded-[10px] bg-gradient-to-r from-[#292e49] via-[#292e49yarn d] to-[#536976] text-grayBlue p-4 flex flex-col items-start justify-between">
     <div class="flex items-center justify-end float-right clear-right w-full">
       <Logo :width="60" />
     </div>
 
-    <div class="font-Roboto sm:text-3xl text-2xl font-normal whitespace-nowrap sm:py-0 py-6">
-      0000 XXXX XXXX 1234
+    <div class="font-Roboto sm:text-3xl text-2xl font-normal sm:py-0 py-6 flex items-center justify-between sm:space-x-5 space-x-3 w-full">
+      <span> 0000</span> <span> XXXX</span> <span> XXXX </span> <span>1234</span>
     </div>
 
     <div class="flex items-center justify-between space-x-4 w-full">

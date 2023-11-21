@@ -23,6 +23,10 @@ export default {
       },
       fontFamily: {
         Roboto: ['"Roboto Mono"', ...defaultTheme.fontFamily.sans]
+      },
+      backgroundImage: {
+        'hero-pattern': "url('../assets/png/bg-desktop.png')",
+        // 'footer-texture': "url('/img/footer-texture.png')",
       }
     },
   },

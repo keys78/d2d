@@ -1,13 +1,17 @@
 <template>
   <section>
-    <div class="flex items-center justify-between pt-10 pb-4">
+    <div :class="['flex items-center justify-between' , !showListTotal ? 'pt-10 pb-4' : 'pb-4']">
       <h3>{{ title }} <span v-if="showListTotal">({{ filteredTransactions?.length }})</span></h3>
       <router-link to="/transactions"><span class="" v-if="loadMoreBtn">View all</span> </router-link>
     </div>
 
+    
+
+
     <span v-if="showTabs">
       <Tabs :filterTransactions="filterTransactions" />
       <SearchFilter :filteredTransactions="filteredTransactions" @updateSearch="handleSearch" />
+      <Chart :filteredTransactions="filteredTransactions" />
 
     </span>
     <span  v-if="showTabs">
@@ -67,6 +71,7 @@ import EditTransaction from "./EditTransaction.vue";
 import DeleteTransaction from "./DeleteTransaction.vue";
 import Tabs from '../components/ui/Tabs.vue'
 import SearchFilter from '../components/ui/SearchFilter.vue'
+import Chart from '../components/ui/Chart.vue'
 
 
 onMounted(() => {

@@ -1,22 +1,18 @@
 <template>
   <h3 class="text-xl font-bold mb-4">Transaction Details</h3>
   <div v-if="selectedTransaction">
-    <div
-      class="flex items-center justify-between bg-darkBlue py-3 rounded-md px-3"
-    >
+    <div class="flex items-center justify-between bg-darkBlue py-3 rounded-md px-3">
       <div class="flex items-center space-x-3">
-        <div
-          :class="[
-            'border-2',
-            'w-[30px]',
-            'h-[30px]',
-            'rounded-full',
-            'flex items-center justify-center border-veryDarkBlue',
-            selectedTransaction?.type === 'income'
-              ? 'bg-green-600'
-              : 'bg-red-500',
-          ]"
-        >
+        <div :class="[
+          'border-2',
+          'w-[30px]',
+          'h-[30px]',
+          'rounded-full',
+          'flex items-center justify-center border-veryDarkBlue',
+          selectedTransaction?.type === 'income'
+            ? 'bg-green-600'
+            : 'bg-red-500',
+        ]">
           <span v-if="selectedTransaction?.category === 'home'">
             <ph-house :size="20" color="#fff" />
           </span>
@@ -42,25 +38,20 @@
         {{ selectedTransaction?.title }}
       </p>
 
-      <p
-        :class="[
-          'capitalize',
-          'text-xl',
-          'font-Roboto',
-          selectedTransaction?.type === 'income'
-            ? 'text-green-600'
-            : 'text-red-500',
-        ]"
-      >
-        <CountUp
-          :total="selectedTransaction?.amount"
-          :animationOptions="{
-            duration: 2,
-            prefix: '$',
-            suffix: '',
-            decimalPlaces: 2,
-          }"
-        />
+      <p :class="[
+        'capitalize',
+        'text-xl',
+        'font-Roboto',
+        selectedTransaction?.type === 'income'
+          ? 'text-green-600'
+          : 'text-red-500',
+      ]">
+        <CountUp :total="selectedTransaction?.amount" :animationOptions="{
+          duration: 2,
+          prefix: '$',
+          suffix: '',
+          decimalPlaces: 2,
+        }" />
       </p>
     </div>
     <p class="pb-6 pt-3">{{ selectedTransaction?.description }}</p>

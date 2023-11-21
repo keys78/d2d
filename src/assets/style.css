@@ -49,13 +49,14 @@
   }
 
   html {
-    @apply bg-veryDarkBlue scroll-smooth;
+    @apply bg-veryDarkBlue scroll-smooth text-paleBlue;
   }
 
   body {
-    @apply bg-veryDarkBlue text-paleBlue max-w-[1920px] mx-auto
+    @apply max-w-[1920px] mx-auto
     scrollbar-thin scrollbar-thumb-paleBlue scrollbar-track-transparent overflow-y-scroll h-full 
     ; 
+    @layer hero-pattern;
   }
 }
 
