@@ -1,7 +1,7 @@
 <template>
   <section>
     <div :class="['flex items-center justify-between' , !showListTotal ? 'pt-10 pb-4' : 'pb-4']">
-      <h3>{{ title }} <span v-if="showListTotal">({{ filteredTransactions?.length }})</span></h3>
+      <h3 class="font-medium">{{ title }} <span v-if="showListTotal">({{ filteredTransactions?.length }})</span></h3>
       <router-link to="/transactions"><span class="" v-if="loadMoreBtn">View all</span> </router-link>
     </div>
 
@@ -90,6 +90,7 @@ const showDetailsModal = ref(false);
 const showEditModal = ref(false);
 const transactionId = ref('')
 const activeTab = ref('all');
+const searchTerm = ref('');
 
 
 const handleOpenDeleteModal = (id) => {
@@ -148,8 +149,6 @@ const filterTransactions = (tab) => {
   activeTab.value = tab;
 };
 
-
-const searchTerm = ref('');
 
 const handleSearch = (value) => {
   searchTerm.value = value.toLowerCase();
