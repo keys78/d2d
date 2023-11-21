@@ -1,22 +1,19 @@
 <template>
   <section>
-    <div :class="['flex items-center justify-between' , !showListTotal ? 'pt-10 pb-4' : 'pb-4']">
+    <div :class="['flex items-center justify-between', !showListTotal ? 'pt-10 pb-4' : 'pb-4']">
       <h3 class="font-medium">{{ title }} <span v-if="showListTotal">({{ filteredTransactions?.length }})</span></h3>
       <router-link to="/transactions"><span class="" v-if="loadMoreBtn">View all</span> </router-link>
     </div>
 
-    
-
 
     <span v-if="showTabs">
       <Tabs :filterTransactions="filterTransactions" />
-      <SearchFilter :filteredTransactions="filteredTransactions" @updateSearch="handleSearch" />
-      <Chart :filteredTransactions="filteredTransactions" />
+      <span v-if="filteredTransactions.length > 0">
+        <SearchFilter :filteredTransactions="filteredTransactions" @updateSearch="handleSearch" />
+        <Chart :filteredTransactions="filteredTransactions" />
+      </span>
+    </span>
 
-    </span>
-    <span  v-if="showTabs">
-    </span>
-    
 
     <TransitionGroup name="list" tag="ul" v-if="filteredTransactions.length > 0">
       <li v-for="transaction in filteredTransactions" :key="transaction.id"
@@ -45,6 +42,8 @@
     <p v-else-if="!searchTerm.trim() && transactions.length === 0">No transactions available.</p>
     <p v-else>No matching transactions found.</p>
 
+
+    <!-- Interactive Modals  -->
     <Modal :show="showDetailsModal" @update:show="showDetailsModal = $event">
       <TransactionDetails :transactionId="transactionId" />
     </Modal>
@@ -56,6 +55,7 @@
     <Modal :show="showDeleteModal" @update:show="showDeleteModal = $event">
       <DeleteTransaction :transactionId="transactionId" @update:show="showDeleteModal = $event" />
     </Modal>
+    
   </section>
 </template>
 
@@ -188,4 +188,5 @@ const filteredTransactions = computed(() => {
 
 .list-leave-active {
   position: absolute;
-}</style>
+}
+</style>
