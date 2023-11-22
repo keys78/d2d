@@ -8,7 +8,7 @@
 
     <span v-if="showTabs">
       <Tabs :filterTransactions="filterTransactions" />
-      <span v-if="filteredTransactions.length > 0">
+      <span>
         <SearchFilter :filteredTransactions="filteredTransactions" @updateSearch="handleSearch" />
         <Chart :filteredTransactions="filteredTransactions" />
       </span>
